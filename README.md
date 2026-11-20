@@ -31,6 +31,7 @@ Mientras luce el led en la pantalla LCD imprimimos "Cargando ..."
 Una vez que el led acaba de lucir transicionamos a Service_PRESENCE
 
 ### Service_PRESENCE
+
 En Service_PRESENCE lo que hacemos es esperar a un cliente, para ello lo que hacemos es mientras que la distancia que lee el sensor no sea menor que 100 el LCD imprime "ESPERANDO CLIENTE".
 
 Mientras que no se detecta a nadie también ejecutamos el controller que va comprobando posibles transiciones al estado de Admin si el botón externo ha sido pulsado por más de 5 segundos seguidos. En caso de que se detecte a alguien y no se haya cambiado a Admin lo que hacemos es transicionar a Service_PRODUCTS
@@ -48,3 +49,19 @@ Una vez que ha acabado de imprimir el mensaje durante el numero aleatorio de seg
 Durante Service_PRODUCTS si el botón externo es pulsado entre 2 y 3 segundos el sistema transiciona de nuevo a Service_PRESENCE y si el botón externo ha sido pulsado por más de 5 segundos seguidos el sistema transiciona a Admin.
 
 ### Admin
+
+El estado de Admin se basa en un estado compuesto por otra FSM con un menu de acciones, para poder navegar dentro del menu utilizamos el joystick (eje arriba / abajo) y cuando estamos dentro de una opcion para poder volver al menu principal con el joystick apuntamos a la izquierda:
+  - Ver Temperatura: Muestra la temperatura y humedad captado por el sensor DHT
+  - Ver distancia sensor: Muestra la distancia captada por el sensor de ultrasonido
+  - Ver contador: Muestra el tiempo segundo a segundo del tiempo que ha pasado desde que inicio el programa
+  - Modificar precio: Muestra el menu de los diferente productos disponibles, una vez que con el switch del joystick seleccionamos un producto apuntando su eje hacia arriba o hacia abajo podemos sumar o restar el precio del producto en 0.5$ y cuando con el switch confirmamos el cambio permanece los cambios.
+
+Para salir del estado admin tenemos que pulsar el boton externo durante más de 5 sg y transiciona al estado Service_PRESENCE
+
+### Control de antirrebotes del boton externo
+
+Con el botón externo podemos forzar cambios de estado como Service_PRODUCTS -> Service_PRESENCE o la entrada y salida del estado Admin.
+
+Para poder detectar al botón externo tenemos definida una interrupción hardware en modo CHANGE que lo que hace es que se activa cuando hay un cambio en la señal leida por el botón.
+
+Dentro de esta interrupción guardamos los instantes en los que se ha pulsado el botón y en el que se suelta. Una vez guardados los instantes desactivamos la interrupción. La desactivamos ya que con los rebotes lo que hace es activar interrupciones, y al comportarse las interrupciones de forma secuencial lo que hace es añadir latencias ya
