@@ -16,3 +16,14 @@ En esta práctica lo que buscamos es desarrollar un sistema que simule el compor
 
 <img width="2831" height="1956" alt="maquina_expendedora" src="https://github.com/user-attachments/assets/662a7a61-f19c-4342-a87a-0448d8a03183" />
 
+## Funcionamiento
+
+Para poder llevar a cabo el funcionamiento deseado he desarrollado una FSM basada en 4 estados principales
+
+### Boot
+
+### Service_PRESENCE
+
+### Service_PRODUCTS
+
+### Admin
