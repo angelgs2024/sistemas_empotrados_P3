@@ -64,4 +64,26 @@ Con el botón externo podemos forzar cambios de estado como Service_PRODUCTS -> 
 
 Para poder detectar al botón externo tenemos definida una interrupción hardware en modo CHANGE que lo que hace es que se activa cuando hay un cambio en la señal leida por el botón.
 
-Dentro de esta interrupción guardamos los instantes en los que se ha pulsado el botón y en el que se suelta. Una vez guardados los instantes desactivamos la interrupción. La desactivamos ya que con los rebotes lo que hace es activar interrupciones, y al comportarse las interrupciones de forma secuencial lo que hace es añadir latencias ya
+Dentro de esta interrupción guardamos los instantes en los que se ha pulsado el botón y en el que se suelta. Una vez guardados los instantes desactivamos la interrupción y ponemos a false un booleano que nos ayudará a saber si la señal está procesada. La desactivamos ya que con los rebotes lo que hace es activar interrupciones, y al comportarse las interrupciones de forma secuencial lo que hace es añadir latencias ya que se van a ir ejecutando una detrás de otra.
+
+Una vez que ya está desactivada tenemos un thread que se ejecuta cada 100 ms ejecutando la función callback_thread1. Dentro de esa función podriamos dividir su funcionamiento en dos partes. La primea parte que es de procesamiento de los tiempos en los cuales se lleva a cabo las transiciones entre estados, aquí es donde utilizaremos la variable booleana ya que es posible que por ejemplo 
+(released_button - pressed_button) > 5000 esta condición se ve para entrar y salir de Admin, por lo que si se cumple y entra a Admin al no actualizar los valores de ambas variables automáticamente saldría de Admin, pero como la variable unicamente se actualiza de nuevo a false en la interrupción significa que uno de los dos valores han sido actualizados, por lo que ya no se cumpliría la condición o si se cumple significa que de verdad tiene que salir.
+Las condiciones son:
+  - Para entrar en Admin:
+```
+  (released_button - pressed_button) > 5000 && state == Admin && !procesed_signal)
+```
+
+  - Para poder reiniciar Service:
+```
+(state == Service_PRODUCTS) && (released_button - pressed_button) > 2000 && (released_button - pressed_button) < 3000 && !procesed_signal)
+```
+
+  - Para salir de Admin
+```
+(released_button - pressed_button) > 5000 && !procesed_signal)
+```
+
+La segunda parte es la del procesamiento de la señal por la cual si la señal se mantiene constante durante dos ejecuciones del thread podemos considerar que no hay rebotes por lo que podemos volver a habilitar de nuevo la interrupción
+
+## Video Demostrativo
