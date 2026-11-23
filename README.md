@@ -14,7 +14,8 @@ En esta práctica lo que buscamos es desarrollar un sistema que simule el compor
 
 ## Imagen montaje
 
-<img width="2831" height="1956" alt="maquina_expendedora" src="https://github.com/user-attachments/assets/662a7a61-f19c-4342-a87a-0448d8a03183" />
+<img width="2831" height="1956" alt="maquina_expendedora" src="https://github.com/user-attachments/assets/1d907388-2e86-4739-acd9-63763ba02899" />
+
 
 ## Funcionamiento
 
