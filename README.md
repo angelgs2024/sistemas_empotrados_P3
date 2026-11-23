@@ -88,3 +88,9 @@ Las condiciones son:
 La segunda parte es la del procesamiento de la señal por la cual si la señal se mantiene constante durante dos ejecuciones del thread podemos considerar que no hay rebotes por lo que podemos volver a habilitar de nuevo la interrupción
 
 ## Video Demostrativo
+
+
+
+https://github.com/user-attachments/assets/8d2d1900-ac6c-4d97-9d7e-49bc3a3d7239
+
+
